@@ -464,47 +464,4 @@
       });
     }
 
-    /* --------------------------------------------------------------------------
-       11. CONTACT FORM WITH MAILTO FALLBACK & TRANSMISSION SIMULATION
-       -------------------------------------------------------------------------- */
-    function handleFormSubmit(e) {
-      e.preventDefault();
-      const name = document.getElementById('contact-name').value.trim();
-      const email = document.getElementById('contact-email').value.trim();
-      const subject = document.getElementById('contact-subject').value.trim();
-      const message = document.getElementById('contact-message').value.trim();
-      const submitBtn = document.getElementById('submit-btn');
-      const btnText = document.getElementById('btn-text');
-      const feedback = document.getElementById('form-feedback');
 
-      if (!name || !email || !message) {
-        alert("Please fill in all required fields.");
-        return;
-      }
-
-      // Visual sending status
-      submitBtn.disabled = true;
-      btnText.textContent = "Encrypting & Transmitting...";
-      feedback.style.display = 'none';
-
-      setTimeout(() => {
-        // Construct mailto link as fallback
-        const mailtoSubject = encodeURIComponent(`[Portfolio Inquiry] ${subject || 'Quality Engineering Opportunity'}`);
-        const mailtoBody = encodeURIComponent(`Hello Safiur,\n\nMy name is ${name} (${email}).\n\n${message}\n\nBest regards,\n${name}`);
-        const mailtoUrl = `mailto:rahamansafiur614@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
-
-        feedback.className = 'form-notification success';
-        feedback.innerHTML = `<strong>✔ Transmission Prepared!</strong> Opening your email client to send to <code>rahamansafiur614@gmail.com</code>. If it does not open automatically, <a href="${mailtoUrl}" style="text-decoration: underline; color: #fff;">click here to send</a>.`;
-        feedback.style.display = 'block';
-
-        btnText.textContent = "Message Dispatched ✔";
-        
-        // Trigger mailto client
-        window.location.href = mailtoUrl;
-
-        setTimeout(() => {
-          submitBtn.disabled = false;
-          btnText.textContent = "Transmit Message to Md Safiur Rahaman";
-        }, 4000);
-      }, 700);
-    }
